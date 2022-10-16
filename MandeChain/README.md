@@ -1,7 +1,6 @@
 
 # Official Links
-### [Official Document](https://github.com/mande-labs/testnet-1)
-### [Discord](https://discord.gg/Q43H94fG7X)
+### [Website](https://www.mande.network/) ### [Discord](https://discord.gg/Q43H94fG7X) ### [Twitter](https://twitter.com/MandeNetwork) ### [Official Document](https://github.com/mande-labs/testnet-1)
 
 # Explorer
 [Explorer](https://explorer.stavr.tech/mande-chain/staking)

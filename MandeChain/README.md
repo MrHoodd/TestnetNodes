@@ -74,7 +74,7 @@ wget -O $HOME/.mande-chain/config/genesis.json "https://raw.githubusercontent.co
 
 ### Download addrbook
 ```bash
-wget -O $HOME/.mande-chain/config/addrbook.json "https://raw.githubusercontent.com/obajay/nodes-Guides/main/Mande%20Chain/addrbook.json"
+wget -O $HOME/.mande-chain/config/addrbook.json https://github.com/MrHoodd/TestnetNodes/blob/main/MandeChain/addrbook.json
 ```
 
 ### Set minimum gas price, seeds, and peers

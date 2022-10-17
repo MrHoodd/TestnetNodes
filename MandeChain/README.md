@@ -14,7 +14,7 @@ NODENAME=<YOUR_MONIKER_NAME>
 ```
 ### Save and import variables into system
 ```bash
-MANDE_PORT=30
+MANDE_PORT=31
 echo "export NODENAME=$NODENAME" >> $HOME/.bash_profile
 if [ ! $WALLET ]; then
 	echo "export WALLET=wallet" >> $HOME/.bash_profile
@@ -212,14 +212,13 @@ To create your validator run command below
 ```bash
 mande-chaind tx staking create-validator \
 --chain-id $MANDE_CHAIN_ID \
---amount 100000000cred \
+--amount 0cred \
 --pubkey "$(mande-chaind tendermint show-validator)" \
 --from $WALLET \
 --moniker $NODENAME \
 --identity=<your_keybase_id> \
 --website="<your_website>" \
---details="<your_validator_description>" \
---fees 1000mand
+--details="<your_validator_description>"
 ```
  
 ## Usefull commands

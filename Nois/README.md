@@ -312,22 +312,22 @@ noisd tx gov vote 1 yes --from $WALLET --chain-id=$NOIS_CHAIN_ID
 ### Staking, Delegation and Rewards
 Delegate stake
 ```bash
-noisd tx staking delegate $NOIS_VALOPER_ADDRESS 10000000unois --from=$WALLET --chain-id=$NOIS_CHAIN_ID --gas=auto
+noisd tx staking delegate $NOIS_VALOPER_ADDRESS 10000000unois --from=$WALLET --chain-id=$NOIS_CHAIN_ID --fees=10000unois
 ```
 
 Redelegate stake from validator to another validator
 ```bash
-noisd tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 10000000unois --from=$WALLET --chain-id=$NOIS_CHAIN_ID --gas=auto
+noisd tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 10000000unois --from=$WALLET --chain-id=$NOIS_CHAIN_ID --fees=10000unois
 ```
 
 Withdraw all rewards
 ```bash
-noisd tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$NOIS_CHAIN_ID --gas=auto
+noisd tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$NOIS_CHAIN_ID --fees=10000unois
 ```
 
 Withdraw rewards with commision
 ```bash
-noisd tx distribution withdraw-rewards $NOIS_VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$NOIS_CHAIN_ID
+noisd tx distribution withdraw-rewards $NOIS_VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$NOIS_CHAIN_ID --fees=10000unois
 ```
 
 ### Validator management
@@ -339,7 +339,8 @@ mande-chaind tx staking edit-validator \
   --website="<your_website>" \
   --details="<your_validator_description>" \
   --chain-id=$NOIS_CHAIN_ID \
-  --from=$WALLET
+  --from=$WALLET \
+  --fees=10000unois
 ```
 
 Unjail validator

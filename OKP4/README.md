@@ -108,14 +108,14 @@ sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/$OKP_FOLDER/config/app.toml
 ```
 
-### Set custom ports
+### Set custom ports (Optional)
 ```bash
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:2${OKP_PORT}8\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:2${OKP_PORT}7\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${OKP_PORT}60\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:2${OKP_PORT}6\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":2${OKP_PORT}0\"%" $HOME/$OKP_FOLDER/config/config.toml
 sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${OKP_PORT}7\"%; s%^address = \":8080\"%address = \":${OKP_PORT}80\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${OKP_PORT}90\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${OKP_PORT}91\"%" $HOME/$OKP_FOLDER/config/app.toml
 sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:2${OKP_PORT}7\"%" $HOME/$OKP_FOLDER/config/client.toml
 ```
 
-### Enable prometheus
+### Enable prometheus (Optional)
 ```bash
 sed -i -e "s/prometheus = false/prometheus = true/" $HOME/$OKP_FOLDER/config/config.toml
 ```
@@ -175,7 +175,7 @@ List of wallets
 ```bash
 okp4d keys list
 ```
-###vSave wallet info
+### Save wallet info
 Add wallet and valoper address into variables
 ```bash
 OKP_WALLET_ADDRESS=$(okp4d keys show $OKP_WALLET -a)

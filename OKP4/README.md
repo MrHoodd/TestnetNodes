@@ -290,7 +290,7 @@ okp4d tx gov vote 1 yes --from $OKP_WALLET --chain-id=$OKP_ID
 ### Staking, Delegation and Rewards
 Delegate stake
 ```bash
-okp4d tx staking delegate $OKP_VALOPER_ADDRESS 10000000uknow --from=$OKP_WALLET --chain-id=$OKP_ID --gas=auto --fees 250uknow
+okp4d tx staking delegate $OKP_VALOPER_ADDRESS 10000000uknow --from=$OKP_WALLET --chain-id=$OKP_ID --fees 250uknow
 ```
 
 Redelegate stake from validator to another validator
@@ -305,7 +305,7 @@ okp4d tx distribution withdraw-all-rewards --from=$OKP_WALLET --chain-id=$OKP_ID
 
 Withdraw rewards with commision
 ```bash
-okp4d tx distribution withdraw-rewards $OKP_VALOPER_ADDRESS --from=$OKP_WALLET --commission --chain-id=$OKP_ID
+okp4d tx distribution withdraw-rewards $OKP_VALOPER_ADDRESS --from=$OKP_WALLET --commission --chain-id=$OKP_ID --fees 250uknow
 ```
 
 ### Validator management
@@ -326,7 +326,6 @@ okp4d tx slashing unjail \
   --broadcast-mode=block \
   --from=$OKP_WALLET \
   --chain-id=$OKP_ID \
-  --gas=auto \
   --fees 250uknow
 ```
 Delete node

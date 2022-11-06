@@ -69,7 +69,7 @@ ollod init $NODENAME --chain-id $OLLO_CHAIN_ID
 
 ### Download genesis and addrbook
 ```bash
-wget -qO $HOME/.ollo/config/genesis.json "https://raw.githubusercontent.com/OllO-Station/networks/master/ollo-testnet-1/genesis.json"
+wget -O $HOME/.ollo/config/addrbook.json "https://raw.githubusercontent.com/BccNodes/Testnet-Guides/main/Ollo%20Testnet/addrbook.json"
 ```
 
 ## Set seeds and peers
@@ -168,7 +168,7 @@ ollod query bank balances $OLLO_WALLET_ADDRESS
 After your node is synced, create validator
 ```bash
 ollod tx staking create-validator \
-  --amount 2000000utollo \
+  --amount 50000000utollo \
   --from $WALLET \
   --commission-max-change-rate "0.01" \
   --commission-max-rate "0.2" \

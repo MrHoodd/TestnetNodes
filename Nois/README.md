@@ -333,7 +333,7 @@ noisd tx distribution withdraw-rewards $NOIS_VALOPER_ADDRESS --from=$WALLET --co
 ### Validator management
 Edit validator
 ```bash
-mande-chaind tx staking edit-validator \
+noisd tx slashing unjail \
   --moniker=$NODENAME \
   --identity=<your_keybase_id> \
   --website="<your_website>" \
@@ -345,10 +345,10 @@ mande-chaind tx staking edit-validator \
 
 Unjail validator
 ```bash
-mande-chaind tx slashing unjail \
+noisd tx slashing unjail \
   --broadcast-mode=block \
   --from=$WALLET \
-  --chain-id=$MANDE_CHAIN_ID \
+  --chain-id=$NOIS_CHAIN_ID \
   --fees=10000unois
 ```
 

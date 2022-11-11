@@ -68,7 +68,8 @@ noisd init $NODENAME --chain-id $NOIS_CHAIN_ID
 
 ### Download genesis and addrbook
 ```bash
-wget -qO $HOME/.noisd/config/genesis.json "https://raw.githubusercontent.com/noislabs/testnets/main/nois-testnet-003/genesis.json"
+wget -qO $HOME/.noisd/config/genesis.json "https://raw.githubusercontent.com/noislabs/networks/main/nois-testnet-003/genesis.json"
+wget -O $HOME/.noisd/config/addrbook.json "https://raw.githubusercontent.com/obajay/nodes-Guides/main/Nois/addrbook.json"
 ```
 
 ### Set seeds, and peers

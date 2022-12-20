@@ -338,7 +338,7 @@ Edit validator
 ```bash
 noisd tx slashing unjail \
   --moniker=$NODENAME \
-  --identity=<your_keybase_id> \
+  --identity="<your_keybase_id>" \
   --website="<your_website>" \
   --details="<your_validator_description>" \
   --chain-id=$NOIS_CHAIN_ID \

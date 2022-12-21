@@ -4,7 +4,7 @@
 # Explorer
 [Explorer](https://explorer.kjnodes.com/nibiru/staking) [Explorer](https://testnet-1.nibiru.fi/validators)
 
-# Install Node Guide nibiru-testnet-1
+# Install Node Guide nibiru-testnet-2
 ### Setting up variables
 Specify the name of your moniker (validator) which will be visible in the explorer
 ```bash
@@ -17,7 +17,7 @@ echo "export NODENAME=$NODENAME" >> $HOME/.bash_profile
 if [ ! $WALLET ]; then
 	echo "export WALLET=wallet" >> $HOME/.bash_profile
 fi
-echo "export NIBIRU_CHAIN_ID=nibiru-testnet-1" >> $HOME/.bash_profile
+echo "export NIBIRU_CHAIN_ID=nibiru-testnet-2" >> $HOME/.bash_profile
 echo "export NIBIRU_PORT=${NIBIRU_PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
@@ -51,7 +51,7 @@ fi
 cd $HOME && rm -rf nibiru
 git clone https://github.com/NibiruChain/nibiru.git
 cd nibiru
-git checkout v0.15.0
+git checkout v0.16.2
 make install
 ```
 

@@ -69,12 +69,12 @@ nibid init $NODENAME --chain-id $NIBIRU_CHAIN_ID
 
 ### Download genesis and addrbook
 ```bash
-curl -s https://networks.testnet.nibiru.fi/$NETWORK/genesis > $HOME/.nibid/config/genesis.json
+curl -s https://networks.testnet.nibiru.fi/nibiru-testnet-2/genesis > $HOME/.nibid/config/genesis.json
 ```
 
 ## Set seeds and peers
 ```bash
-sed -i 's|seeds =.*|seeds = "'$(curl -s https://networks.testnet.nibiru.fi/$NETWORK/seeds)'"|g' $HOME/.nibid/config/config.toml
+sed -i 's|seeds =.*|seeds = "'$(curl -s https://networks.testnet.nibiru.fi/nibiru-testnet-2/seeds)'"|g' $HOME/.nibid/config/config.toml
 ```
 
 ## Set custom ports
@@ -134,17 +134,14 @@ sudo systemctl daemon-reload
 sudo systemctl enable nibid
 sudo systemctl restart nibid && sudo journalctl -u nibid -f -o cat
 ```
-### Update block time parameters
+### Snapshot
 ```bash
-CONFIG_TOML="$HOME/.nibid/config/config.toml"
-sed -i 's/timeout_propose =.*/timeout_propose = "100ms"/g' $CONFIG_TOML
-sed -i 's/timeout_propose_delta =.*/timeout_propose_delta = "500ms"/g' $CONFIG_TOML
-sed -i 's/timeout_prevote =.*/timeout_prevote = "100ms"/g' $CONFIG_TOML
-sed -i 's/timeout_prevote_delta =.*/timeout_prevote_delta = "500ms"/g' $CONFIG_TOML
-sed -i 's/timeout_precommit =.*/timeout_precommit = "100ms"/g' $CONFIG_TOML
-sed -i 's/timeout_precommit_delta =.*/timeout_precommit_delta = "500ms"/g' $CONFIG_TOML
-sed -i 's/timeout_commit =.*/timeout_commit = "1s"/g' $CONFIG_TOML
-sed -i 's/skip_timeout_commit =.*/skip_timeout_commit = false/g' $CONFIG_TOML
+sudo systemctl stop nibid
+cp $HOME/.nibid/data/priv_validator_state.json $HOME/.nibid/priv_validator_state.json.backup
+rm -rf $HOME/.nibid/data
+curl -L https://snapshots.kjnodes.com/nibiru-testnet/snapshot_latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/.nibid
+mv $HOME/.nibid/priv_validator_state.json.backup $HOME/.nibid/data/priv_validator_state.json
+sudo systemctl start nibid && journalctl -u nibid -f --no-hostname -o cat
 ```
 ### Create wallet
 To create a new wallet, don't forget to save the mnemonics
@@ -175,7 +172,7 @@ source $HOME/.bash_profile
 ### Faucet
 
 ```bash
-curl -X POST -d '{"address": "'"$NIBIRU_WALLET_ADDRESS"'", "coins": ["10000000unibi","100000000000unusd"]}' https://faucet.testnet-1.nibiru.fi/
+curl -X POST -d '{"address": "'"$NIBIRU_WALLET_ADDRESS"'", "coins": ["10000000unibi","100000000000unusd"]}' https://faucet.testnet-2.nibiru.fi/
 ```
 ### To check your wallet balance:
 ```bash
@@ -186,16 +183,16 @@ nibid query bank balances $NIBIRU_WALLET_ADDRESS
 After your node is synced, create validator
 ```bash
 nibid tx staking create-validator \
-  --amount 2000000unibi \
+  --amount 10000000unibi \
   --from $WALLET \
-  --commission-max-change-rate "0.01" \
+  --commission-max-change-rate "0.1" \
   --commission-max-rate "0.2" \
-  --commission-rate "0.07" \
+  --commission-rate "0.1" \
   --min-self-delegation "1" \
   --pubkey  $(nibid tendermint show-validator) \
   --moniker $NODENAME \
   --chain-id $NIBIRU_CHAIN_ID \
-  --fees=5000unibi
+  --fees=5000unibi -y
 ```
 
 ## Usefull commands
@@ -308,10 +305,9 @@ nibid tx staking edit-validator \
 Unjail validator
 ```bash
 nibid tx slashing unjail \
-  --broadcast-mode=block \
   --from=$WALLET \
   --chain-id=$NIBIRU_CHAIN_ID \
-  --fees=5000unibi
+  --fees=5000unibi -y
 ```
 
 ### Delete node

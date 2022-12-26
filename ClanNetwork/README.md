@@ -6,19 +6,21 @@
 
 # Install Node Guide Clan Network
 
-### Create variables
-Specify the name of your moniker (validator) which will be visible in the explorer MONIKER=<YOUR_MONIKER_NAME>
+### Setting up variables
+Specify the name of your moniker (validator) which will be visible in the explorer
 ```bash
-MONIKER=<YOUR_MONIKER_NAME>
-CHAIN="playstation-2"
-WALLET_NAME=wallet
+NODENAME=<YOUR_MONIKER_NAME>
 ```
 
-### Import variables into system
+### Save and import variables into system
 ```bash
-echo 'export MONIKER='${MONIKER} >> $HOME/.bash_profile
-echo 'export CHAIN='${CHAIN} >> $HOME/.bash_profile
-echo 'export WALLET_NAME='${WALLET_NAME} >> $HOME/.bash_profile
+CLAN_PORT=19
+echo "export NODENAME=$NODENAME" >> $HOME/.bash_profile
+if [ ! $WALLET ]; then
+	echo "export WALLET=wallet" >> $HOME/.bash_profile
+fi
+echo "export CLAN_CHAIN_ID=playstation-2" >> $HOME/.bash_profile
+echo "export CLAN_PORT=${CLAN_PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
@@ -34,14 +36,16 @@ sudo apt install make clang pkg-config libssl-dev build-essential git gcc chrony
 
 ### Install GO
 ```bash
-cd $HOME
-wget -O go1.18.1.linux-amd64.tar.gz https://golang.org/dl/go1.18.1.linux-amd64.tar.gz
-rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.18.1.linux-amd64.tar.gz && rm go1.18.1.linux-amd64.tar.gz
-echo 'export GOROOT=/usr/local/go' >> $HOME/.bash_profile
-echo 'export GOPATH=$HOME/go' >> $HOME/.bash_profile
-echo 'export GO111MODULE=on' >> $HOME/.bash_profile
-echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile && . $HOME/.bash_profile
-go version
+if ! [ -x "$(command -v go)" ]; then
+  ver="1.19.1"
+  cd $HOME
+  wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
+  rm "go$ver.linux-amd64.tar.gz"
+  echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
+  source ~/.bash_profile
+fi
 ```
 
 ### Download binaries
@@ -56,9 +60,9 @@ cd $HOME
 
 ### Config app
 ```bash
-cland config chain-id $CHAIN
+cland config chain-id $CLAN_CHAIN_ID
 cland config keyring-backend file
-cland init $MONIKER --chain-id $CHAIN
+cland init $NODENAME --chain-id $CLAN_CHAIN_ID
 ```
 
 ### Download genesis and addrbook
@@ -122,20 +126,20 @@ EOF
 
 ### Register and start service
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable cland
-sudo systemctl restart cland 
+sudo systemctl daemon-reload \
+sudo systemctl enable cland \
+sudo systemctl restart cland && journalctl -fu cland -o cat
 source $HOME/.bash_profile
 ```
 
 ### Create wallet
 To create a new wallet, don't forget to save the mnemonics
 ```bash
-cland keys add $WALLET_NAME
+cland keys add $WALLET
 ```
 To recover existing keys use
 ```bash
-cland keys add $WALLET_NAME --recover
+cland keys add $WALLET --recover
 ```
 List of wallets
 ```bash
@@ -144,16 +148,16 @@ cland keys list
 ### Save wallet info
 Add wallet and valoper address into variables
 ```bash
-WALLET_ADDRESS=$(cland keys show $WALLET_NAME -a)
-VALOPER=$(cland keys show $WALLET_NAME --bech val -a)
-echo 'export WALLET_ADDRESS='${WALLET_ADDRESS} >> $HOME/.bash_profile
-echo 'export VALOPER='${VALOPER} >> $HOME/.bash_profile
+CLAN_WALLET_ADDRESS=$(cland keys show $WALLET -a)
+CLAN_VALOPER_ADDRESS=$(cland keys show $WALLET --bech val -a)
+echo 'export CLAN_WALLET_ADDRESS='${CLAN_WALLET_ADDRESS} >> $HOME/.bash_profile
+echo 'export CLAN_VALOPER_ADDRESS='${CLAN_VALOPER_ADDRESS} >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
 
 ### To check your wallet balance:
 ```bash
-cland query bank balances $WALLET_ADDRESS
+cland query bank balances $CLAN_WALLET_ADDRESS
 ```
 ### Create validator
 After your node is synced, create validator
@@ -170,10 +174,10 @@ cland tx staking create-validator \
   --commission-rate "0.1" \
   --min-self-delegation "1" \
   --pubkey=$(cland tendermint show-validator) \
-  --moniker $MONIKER \
-  --chain-id $CHAIN \
+  --moniker $NODENAME \
+  --chain-id CLAN_CHAIN_ID \
   --fees 500uclan \
-  --from $WALLET_NAME -y
+  --from $WALLET -y
 ```
 
 ## Usefull commands
@@ -227,69 +231,69 @@ cland keys list
 
 Recover wallet
 ```bash
-cland keys add $WALLET_NAME --recover
+cland keys add $WALLET --recover
 ```
 
 Delete wallet
 ```bash
-cland keys delete $WALLET_NAME
+cland keys delete $WALLET
 ```
 
 Get wallet balance
 ```bash
-cland query bank balances $WALLET_ADDRESS
+cland query bank balances $CLAN_WALLET_ADDRESS
 ```
 
 Transfer funds
 ```bash
-cland tx bank send $WALLET_ADDRESS <TO_WALLET_ADDRESS> 10000000uknow
+cland tx bank send $CLAN_WALLET_ADDRESS <TO_WALLET_ADDRESS> 10000000uknow
 ```
 
 ### Voting
 ```bash
-cland tx gov vote 1 yes --from $WALLET_NAME --chain-id=$CHAIN
+cland tx gov vote 1 yes --from $WALLET --chain-id=$CLAN_CHAIN_ID --fees=500uclan -y
 ```
 
 ### Staking, Delegation and Rewards
 Delegate stake
 ```bash
-cland tx staking delegate $VALOPER 1000000uclan --from $WALLET_NAME --chain-id $CHAIN --fees 500uclan
+cland tx staking delegate CLAN_VALOPER_ADDRESS 1000000uclan --from $WALLET --chain-id $CHAIN --fees 500uclan
 ```
 
 Redelegate stake from validator to another validator
 ```bash
-cland tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 10000000uclan --from=$WALLET_NAME --chain-id=$CHAIN --fees 500uclan
+cland tx staking redelegate <srcValidatorAddress> <destValidatorAddress> 10000000uclan --from=$WALLET --chain-id=$CLAN_CHAIN_ID --fees 500uclan -y
 ```
 
 Withdraw all rewards
 ```bash
-cland tx distribution withdraw-all-rewards --from=$WALLET_NAME --chain-id=$CHAIN --fees 500uclan
+cland tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$CLAN_CHAIN_ID --fees 500uclan -y
 ```
 
 Withdraw rewards with commision
 ```bash
-cland tx distribution withdraw-rewards $VALOPER --from=$WALLET_NAME --commission --chain-id=$CHAIN --fees 500uclan
+cland tx distribution withdraw-rewards CLAN_VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$CLAN_CHAIN_ID --fees 500uclan -y
 ```
 
 ### Validator management
 Edit validator
 ```bash
 cland tx staking edit-validator \
-  --moniker=$MONIKER \
+  --moniker=$NODENAME \
   --identity="<your_keybase_id>" \
   --website="<your_website>" \
   --details="<your_validator_description>" \
-  --chain-id=$CHAIN \
-  --from=$WALLET_NAME
+  --chain-id=$CLAN_CHAIN_ID \
+  --from=$WALLET
   ```
 
 Unjail validator
 ```bash
 cland tx slashing unjail \
   --broadcast-mode=block \
-  --from=$WALLET_NAME \
-  --chain-id=$CHAIN \
-  --fees=500uclan
+  --from=$WALLET \
+  --chain-id=$CLAN_CHAIN_ID \
+  --fees=500uclan -y
 ```
 Delete node
 ```bash

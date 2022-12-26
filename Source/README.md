@@ -287,7 +287,7 @@ sourced tx gov vote 1 yes --from $WALLET --chain-id=$SOURCE_CHAIN_ID --fees=100u
 ### Staking, Delegation and Rewards
 Delegate stake
 ```bash
-sourced tx staking delegate $SOURCE_VALOPER_ADDRESS 10000000usource --from=$WALLET --chain-id=$SOURCE_CHAIN_ID --fees==100usource
+sourced tx staking delegate $SOURCE_VALOPER_ADDRESS 10000000usource --from=$WALLET --chain-id=$SOURCE_CHAIN_ID --fees=100usource
 ```
 
 Redelegate stake from validator to another validator

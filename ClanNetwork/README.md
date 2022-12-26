@@ -67,7 +67,8 @@ cland init $NODENAME --chain-id $CLAN_CHAIN_ID
 
 ### Download genesis and addrbook
 ```bash
-curl https://raw.githubusercontent.com/ClanNetwork/testnets/main/$CHAIN/genesis.json > ~/.clan/config/genesis.json
+wget -O $HOME/.clan/config/genesis.json "https://raw.githubusercontent.com/ClanNetwork/testnets/main/playstation-2/genesis.json"
+curl https://github.com/MrHoodd/TestnetNodes/blob/main/ClanNetwork/addrbook.json > ~/.clan/config/addrbook.json
 ```
 
 ### Set seeds and peers

@@ -138,7 +138,6 @@ EOF
 sudo systemctl daemon-reload \
 sudo systemctl enable cland \
 sudo systemctl restart cland && journalctl -fu cland -o cat
-source $HOME/.bash_profile
 ```
 
 ### Create wallet

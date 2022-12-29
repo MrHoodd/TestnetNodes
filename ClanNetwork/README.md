@@ -58,10 +58,11 @@ chmod +x /root/go/bin/cland && sudo mv /root/go/bin/cland /usr/local/bin/cland
 cd $HOME
 ```
 
-### Config app
+### Config & Init app
 ```bash
 cland config chain-id $CLAN_CHAIN_ID
 cland config keyring-backend file
+cland config node tcp://localhost:${CLAN_PORT}657
 cland init $NODENAME --chain-id $CLAN_CHAIN_ID
 ```
 
@@ -76,6 +77,13 @@ curl https://github.com/MrHoodd/TestnetNodes/blob/main/ClanNetwork/addrbook.json
 CHAIN_REPO="https://raw.githubusercontent.com/ClanNetwork/testnets/main/$CHAIN" && \
 export PEERS="$(curl -s "$CHAIN_REPO/persistent-peers.txt")"
 sed -i.bak -e "s/^persistent_peers *=.*/persistent_peers = \"$PEERS\"/" ~/.clan/config/config.toml
+```
+
+### Custom port
+```bash
+sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${CLAN_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${CLAN_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${CLAN_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${CLAN_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${CLAN_PORT}660\"%" $HOME/.clan/config/config.toml
+sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${CLAN_PORT}317\"%; s%^address = \":8080\"%address = \":${CLAN_PORT}080\"%; s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:${CLAN_PORT}090\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:${CLAN_PORT}091\"%" $HOME/.clan/config/app.toml
+sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:2${CLAN_PORT}7\"%" $HOME/.clan/config/client.toml
 ```
 
 ### Config pruning (Optional)

@@ -280,7 +280,7 @@ cland tx distribution withdraw-all-rewards --from=$WALLET --chain-id=$CLAN_CHAIN
 
 Withdraw rewards with commision
 ```bash
-cland tx distribution withdraw-rewards CLAN_VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$CLAN_CHAIN_ID --fees 500uclan -y
+cland tx distribution withdraw-rewards $CLAN_VALOPER_ADDRESS --from=$WALLET --commission --chain-id=$CLAN_CHAIN_ID --fees 500uclan -y
 ```
 
 ### Validator management

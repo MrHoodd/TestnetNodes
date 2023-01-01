@@ -265,7 +265,7 @@ cland tx gov vote 1 yes --from $WALLET --chain-id=$CLAN_CHAIN_ID --fees=500uclan
 ### Staking, Delegation and Rewards
 Delegate stake
 ```bash
-cland tx staking delegate CLAN_VALOPER_ADDRESS 1000000uclan --from $WALLET --chain-id $CHAIN --fees 500uclan
+cland tx staking delegate $CLAN_VALOPER_ADDRESS 1000000uclan --from $WALLET --chain-id $CLAN_CHAIN_ID --fees 500uclan
 ```
 
 Redelegate stake from validator to another validator

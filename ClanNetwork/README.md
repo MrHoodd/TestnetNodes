@@ -254,7 +254,7 @@ cland query bank balances $CLAN_WALLET_ADDRESS
 
 Transfer funds
 ```bash
-cland tx bank send $CLAN_WALLET_ADDRESS <TO_WALLET_ADDRESS> 10000000uknow
+cland tx bank send $CLAN_WALLET_ADDRESS <TO_WALLET_ADDRESS> 10000000uknow --fees=500uclan -y
 ```
 
 ### Voting
@@ -265,7 +265,7 @@ cland tx gov vote 1 yes --from $WALLET --chain-id=$CLAN_CHAIN_ID --fees=500uclan
 ### Staking, Delegation and Rewards
 Delegate stake
 ```bash
-cland tx staking delegate $CLAN_VALOPER_ADDRESS 1000000uclan --from $WALLET --chain-id $CLAN_CHAIN_ID --fees 500uclan
+cland tx staking delegate $CLAN_VALOPER_ADDRESS 1000000uclan --from $WALLET --chain-id $CLAN_CHAIN_ID --fees 500uclan -y
 ```
 
 Redelegate stake from validator to another validator
@@ -292,7 +292,7 @@ cland tx staking edit-validator \
   --website="<your_website>" \
   --details="<your_validator_description>" \
   --chain-id=$CLAN_CHAIN_ID \
-  --from=$WALLET
+  --from=$WALLET -y
   ```
 
 Unjail validator

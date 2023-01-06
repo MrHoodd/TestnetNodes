@@ -63,7 +63,7 @@ lavad config node tcp://localhost:${LAVA_PORT}657
 
 ## Init app
 ```bash
-humansd init $NODENAME --chain-id $LAVA_CHAIN_ID
+lavad init $NODENAME --chain-id $LAVA_CHAIN_ID
 ```
 
 ### Download genesis and addrbook
@@ -105,7 +105,7 @@ sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $
 ### Indexer (Optional)
 ```bash
 indexer="null" && \
-sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $HOME/.humans/config/config.toml
+sed -i -e "s/^indexer *=.*/indexer = \"$indexer\"/" $HOME/.lava/config/config.toml
 ```
 
 ### Enable prometheus (Optional)

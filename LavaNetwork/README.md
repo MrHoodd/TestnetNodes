@@ -48,10 +48,15 @@ fi
 
 ### Download binaries
 ```bash
-cd $HOME 
-curl -L https://lava-binary-upgrades.s3.amazonaws.com/testnet/v0.4.0/lavad > lavad
+cd $HOME
+rm -rf lava
+git clone https://github.com/lavanet/lava.git
+cd lava
+git checkout v0.4.0
+make build
 chmod +x lavad
-sudo mv lavad /usr/local/bin/lavad
+sudo mv build/lavad /usr/local/bin/lavad
+rm -rf build
 ```
 
 ### Config app
